@@ -9,9 +9,9 @@ ts = TouchSensor()
 
 nastawa = 0
 
-integral1 = 0
+integral = 0
 
-last_error1 = 0
+last_error = 0
 
 base_vel = -60
 
@@ -23,31 +23,31 @@ while True:
 
     cs1r = cs1.reflected_light_intensity
     
-    error = nastawa -  cs1rli
+    error = nastawa -  cs1r
 
-    integral =0.5* integral + error1
+    integral =0.5* integral + error
 
-    derivative1 = error1 - last_error1
+    derivative = error - last_error
 
-    last_error1 = error1
+    last_error = error
 
-    skret1 = int(0.8*error1  +  18*derivative1)
+    skret = int(0.8*error  +  18*derivative)
     time.sleep(0.1)
 
 
     if ts.is_pressed:
 
-        m1.run_forever(speed_sp =base_vel -  skret1)
-        m2.run_forever(speed_sp =base_vel +  skret1)
+        m1.run_forever(speed_sp =base_vel -  skret)
+        m2.run_forever(speed_sp =base_vel +  skret)
 
-        if cs1rli < 10:
+        if cs1r < 10:
             m1.run_forever(speed_sp = -200)
             m2.run_forever(speed_sp = 300)
-        if cs1rli > 100:
+        if cs1r > 100:
             m1.run_forever(speed_sp = 300)
             m2.run_forever(speed_sp = -200)
 
     elif not ts.is_pressed:
         m1.stop()
         m2.stop()
-    print("uch 1: " + str(skret1)+ " light reflection: " + str( cs1rli) + " " + str(error1) + " " + str(integral1) + " " + str(derivative1) + str(skret1))
+    print("uch 1: " + str(skret)+ " light reflection: " + str( cs1r) + " " + str(error) + " " + str(integral) + " " + str(derivative) + str(skret))
