@@ -37,3 +37,13 @@ class Robot:
       right_engine.run_timed(time_sp = 100, speed_sp = -base_speed + error_P - error_D, stop_action = "coast")
       last_error = error
   
+  def turn(direction, degree):
+     q = 10 %% time factor
+     if direction is 'right':
+        dir = 1
+     else if direction is 'left':
+        dir = -1
+     else 
+        %% raise exception
+        left_engine.run_timed (time_sp = degree*q, speed_sp = -300*dir)
+        right_engine.run_timed(time_sp = degree*q, speed_sp = 300*dir)
