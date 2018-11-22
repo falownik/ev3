@@ -14,11 +14,11 @@ from time import sleep
   
     #parametry PD
     Kp = 4.0
-    Kd = 1.0
+    Kd = 0.15
     base_speed = 60.0
-    mid_l = (white_left + black_right) // 2
-    mid_r = (white_right + black_right) // 2
-    blad = 0
+    mid_l = 260 #(white_left + black_right) // 2
+    mid_r = 260 #(white_right + black_right) // 2
+    error = 0
     last_error = 0
     error_l = 0
     error_r = 0
@@ -33,6 +33,12 @@ from time import sleep
     black_low = 220
     black_high = 300
     
+  def hook(action):
+    dir = 0
+    if action is 'raise':
+      dir = 1
+    elif action is 'lowwer':
+      dir = -1
     
   def follow_the_line():
 
@@ -42,8 +48,8 @@ from time import sleep
       error = error_l - error_r
       error_P = Kp * float(error)
       error_D = Kd * (error - last_error)
-      left_engine.run_timed(time_sp = 100, speed_sp = -base_speed - error_P + error_D, stop_action = "coast")
-      right_engine.run_timed(time_sp = 100, speed_sp = -base_speed + error_P - error_D, stop_action = "coast")
+      left_engine.run_forever( speed_sp = -base_speed - error_P + error_D, stop_action = "coast")
+      right_engine.run_forever(speed_sp = -base_speed + error_P - error_D, stop_action = "coast")
       last_error = error
   
   def turn(direction, degree):
@@ -62,7 +68,7 @@ from time import sleep
     while ultrasonic.distance_centimeters > 10
       follow_the line()
       
-    raise_hook()
+    hook('raise')
     turn(side, 180)
     
     while not light_left in range(black_low, black_high) and light_right in range(black_low, black_high):
