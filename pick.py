@@ -11,6 +11,7 @@ from time import sleep
 
   right_engine = LargeMotor('outB')
   left_engine = LargeMotor('outA')
+  medium_engine = MediumEngine('outC')
   
     #parametry PD
     Kp = 4.0
@@ -37,8 +38,10 @@ from time import sleep
     dir = 0
     if action is 'raise':
       dir = 1
-    elif action is 'lowwer':
+    elif action is 'lower':
       dir = -1
+    medium_engine.run_timed(time_sp = 200, speed_sp = dir*100)
+    
     
   def follow_the_line():
 
@@ -76,12 +79,12 @@ from time import sleep
     turn(side, 90)
     
     
-  def pick_block(side):
+  def leave_block(side):
     turn(side, 90)
     while not (light_left.red in range(blue_low, blue_high) and light_right.red in range(blue_low, blue_high)):
       follow_the line()
       
-    raise_hook()
+    hook('lower')
     turn(side, 180)
     
     while not light_left in range(black_low, black_high) and light_right in range(black_low, black_high):
