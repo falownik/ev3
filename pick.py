@@ -69,14 +69,38 @@ from time import sleep
       follow_the line()
     turn(side, 90)
     
+    
+  def pick_block(side):
+    turn(side, 90)
+    while not (light_left.red in range(blue_low, blue_high) and light_right.red in range(blue_low, blue_high)):
+      follow_the line()
+      
+    raise_hook()
+    turn(side, 180)
+    
+    while not light_left in range(black_low, black_high) and light_right in range(black_low, black_high):
+      follow_the line()
+    turn(side, 90)    
+    
   
   
   
   while True:
     follow_the_line()
+    
     if light_left.red in range(red_low,red_high):
       pick_block('left')
     elif light_right.red in range(red_low,red_high):
       pick_block('right')
+    else:
+      continue
+      
+    if light_left.red in range(blue_low, blue_high):
+      give_block('left')
+    elif light_right.red in range(blue_low, blue_high):
+      give_block('right')
+    else:
+      continue
+    
       
     
